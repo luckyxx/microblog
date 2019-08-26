@@ -1,8 +1,11 @@
-from flask import render_template
+from flask import render_template, redirect, flash
 
 from app import app#从app包中导入 app这个实例
 
 #2个路由
+from app.forms import LoginForm
+
+
 @app.route('/')
 @app.route('/index')
 #1个视图函数
@@ -20,3 +23,13 @@ def index():
     }
     ]
     return render_template('index.html', title='Home', user=user, posts=posts)
+
+
+@app.route('/login',methods=['GET','POST'])
+def login():
+    form = LoginForm()#表单实例化对象
+    # return render_template('login.html', title='Sign In', form=form)
+    if form.validate_on_submit():
+        flash('Login requested for user {},remember_me={}'.format(form.username.data, form.remember_me.data))
+        return redirect('/index')
+    return render_template('login.html', title='Sign In', form=form)
