@@ -8,6 +8,10 @@ from werkzeug.security import generate_password_hash,check_password_hash
 
 from app import login
 
+from hashlib import md5
+
+from datetime import  datetime
+
 class User(UserMixin,db.Model):  #混入类
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -15,9 +19,9 @@ class User(UserMixin,db.Model):  #混入类
     password_hash = db.Column(db.String(128))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
 
+    about_me =db.Column(db.String(140))
+    last_seen=db.Column(db.DateTime,default=datetime.utcnow)
 
-    # def __repr__(self):
-    #     return '<User {}>'.format(self.username)
     def __repr__(self):
         return '<User {}, Email {}, Password_Hash {}, Posts {}'.format(self.username, self.email, self.password_hash,
                                                                        self.posts)
@@ -27,6 +31,11 @@ class User(UserMixin,db.Model):  #混入类
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def avatar(self, size):
+        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
+            digest, size)
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
