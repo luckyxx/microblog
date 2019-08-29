@@ -33,6 +33,6 @@ if not app.debug:
 
     app.logger.setLevel(logging.INFO)
     app.logger.info('Microblog startup')
-from app import routes,models#从app包中导入模块routes
+from app import routes,models,errors#从app包中导入模块routes
 
 
