@@ -1,18 +1,25 @@
 
-from flask import Flask#从flask包中导入Flask类
+from flask import Flask#从flask包中导入Flask
+
 from flask_bootstrap import Bootstrap
+
 from flask_migrate import Migrate
+
 from flask_sqlalchemy import SQLAlchemy
 
 from config import Config
 
-
-
 from logging.handlers import RotatingFileHandler
+
 import os
+
 import logging
+
 from flask_login import LoginManager
+
 from flask_mail import Mail
+
+from flask_moment import Moment
 
 
 app = Flask(__name__)#将Flask类的实例 赋值给名为 app 的变量。这个实例成为app包的成员。
@@ -21,6 +28,8 @@ login = LoginManager(app)
 login.login_view='login'  # ''里的login  是route .py 里的login函数名
 mail=Mail(app)
 bootstrap = Bootstrap(app)
+moment = Moment(app)
+
 
 
 if not app.debug:
