@@ -1,21 +1,27 @@
 
 from flask import Flask#从flask包中导入Flask类
+from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
 from config import Config
 
-from flask_login import LoginManager
+
 
 from logging.handlers import RotatingFileHandler
 import os
 import logging
+from flask_login import LoginManager
+from flask_mail import Mail
 
 
 app = Flask(__name__)#将Flask类的实例 赋值给名为 app 的变量。这个实例成为app包的成员。
 app.config.from_object(Config)
 login = LoginManager(app)
 login.login_view='login'  # ''里的login  是route .py 里的login函数名
+mail=Mail(app)
+bootstrap = Bootstrap(app)
+
 
 if not app.debug:
 
@@ -33,6 +39,8 @@ if not app.debug:
 
     app.logger.setLevel(logging.INFO)
     app.logger.info('Microblog startup')
+
+
 from app import routes,models,errors#从app包中导入模块routes
 
 
