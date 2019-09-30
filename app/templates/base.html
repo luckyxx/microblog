@@ -55,6 +55,7 @@
     </div>
 {% endblock %}
 {% block scripts %}
-    {{ super() }}
+     {{ super() }}
     {{ moment.include_moment() }}
+    {{ moment.lang(g.locale) }}
 {% endblock %}
